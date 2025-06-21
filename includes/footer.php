@@ -1,6 +1,5 @@
-<footer style="text-align:center; margin-top:50px;">
-    <hr>
-    <p>© <?= date("Y") ?> Student Accommodation System</p>
+<footer>
+  <p style="text-align:center;>&copy; <?= date('Y') ?> College Accommodation System</p>
 </footer>
 </body>
 </html>
