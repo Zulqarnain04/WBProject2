@@ -1,14 +1,28 @@
-<?php include('includes/header.php'); ?>
+<?php
+session_start();
+include('database/db_connect.php');
 
-<h2 style="text-align:center;">Login</h2>
-<form action="process_login.php" method="POST" style="max-width:400px;margin:auto;">
-  <label>Username:</label>
-  <input type="text" name="username" required><br><br>
-  
-  <label>Password:</label>
-  <input type="password" name="password" required><br><br>
+$username = $_POST['username'];
+$password = $_POST['password'];
 
-  <button type="submit">Login</button>
-</form>
+$sql = "SELECT * FROM users WHERE username = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "s", $username);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
-<?php include('includes/footer.php'); ?>
+if ($row = mysqli_fetch_assoc($result)) {
+    if (password_verify($password, $row['password'])) {
+        $_SESSION['username'] = $row['username'];
+        $_SESSION['role'] = $row['role'];
+
+        // Redirect based on role
+        header("Location: index.php");
+        exit();
+    } else {
+        echo "❌ Incorrect password.";
+    }
+} else {
+    echo "❌ User not found.";
+}
+?>
