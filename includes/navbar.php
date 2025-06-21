@@ -1,28 +1,18 @@
-//user navigation based of role
+<nav style="text-align:center; background:#f0f0f0; padding:10px;">
+    <a href="index.php">Dashboard</a>
 
-<?php
-if (!isset($_SESSION)) session_start();
-?>
-<nav>
-  <ul>
-    <li><a href="/dashboard.php">Dashboard</a></li>
-    
-    //student's nav
-    <?php if ($_SESSION['role'] == 'student'): ?>
-      <li><a href="/student/apply.php">Apply</a></li>
-      <li><a href="/student/status.php">Status</a></li>
-    
-    //manager nav
-    <?php elseif ($_SESSION['role'] == 'manager'): ?>
-      <li><a href="/manager/review_applications.php">Review</a></li>
-      <li><a href="/manager/sort_reports.php">Reports</a></li>
-
-    //admin nav
-    <?php elseif ($_SESSION['role'] == 'admin'): ?>
-      <li><a href="/admin/manage_users.php">Manage Users</a></li>
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
+        <a href="apply.php">Apply for Room</a>
+        <a href="status.php">My Application</a>
+    <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'manager'): ?>
+        <a href="review.php">Review Applications</a>
+    <?php elseif (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+        <a href="admin_panel.php">Admin Panel</a>
     <?php endif; ?>
 
-    //logout 
-    <li><a href="/logout.php">Logout</a></li>
-  </ul>
+    <?php if (isset($_SESSION['role'])): ?>
+        <a href="logout.php">Logout</a>
+    <?php else: ?>
+        <a href="login.php">Login</a>
+    <?php endif; ?>
 </nav>
